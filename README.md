@@ -1,5 +1,5 @@
 # microProCiv
-Emergency management platform 
+Emergency management platform that allows citizens to get latest news and weather info supported with sensor data, report an emergency event and receive official emergency alerts.
 
 ## Services
 ###### Authentication service
