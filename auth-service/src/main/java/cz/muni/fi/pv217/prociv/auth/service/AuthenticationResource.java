@@ -4,6 +4,9 @@ import cz.muni.fi.pv217.prociv.auth.service.data.AuthData;
 import cz.muni.fi.pv217.prociv.auth.service.exceptions.AuthException;
 import cz.muni.fi.pv217.prociv.auth.service.services.AuthenticationService;
 import io.smallrye.jwt.build.Jwt;
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
