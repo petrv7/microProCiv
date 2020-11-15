@@ -7,4 +7,5 @@ import javax.persistence.Entity;
 public class AuthUser extends PanacheEntity {
     public String username;
     public String passwordHash;
+    public boolean isAdmin;
 }

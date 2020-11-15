@@ -13,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 @Path("/auth")
 public class AuthenticationResource {
@@ -29,9 +30,14 @@ public class AuthenticationResource {
                 throw new AuthException("Invalid password!");
             }
 
+            Set<String> groups = new HashSet<>(Arrays.asList("User"));
+            if (service.isAdmin(data.username)) {
+                groups.add("Admin");
+            }
+
             return Jwt.issuer("https://example.com/issuer")
                     .upn(data.username + "@quarkus.io")
-                    .groups(new HashSet<>(Arrays.asList("User", "Admin")))
+                    .groups(groups)
                     .sign();
         } catch (Exception e) {
             throw new AuthException(e.getMessage());

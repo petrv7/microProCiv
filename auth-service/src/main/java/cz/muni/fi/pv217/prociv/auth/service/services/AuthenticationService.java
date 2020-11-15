@@ -21,6 +21,7 @@ public class AuthenticationService {
         AuthUser newUser = new AuthUser();
         newUser.username = username;
         newUser.passwordHash = createHash(password);
+        newUser.isAdmin = false;
         newUser.persist();
     }
 
@@ -31,6 +32,10 @@ public class AuthenticationService {
         }
 
         return validatePassword(password, user.passwordHash);
+    }
+
+    public boolean isAdmin(String username) {
+        return findUserByName(username).isAdmin;
     }
 
     private AuthUser findUserByName(String username) {
