@@ -8,7 +8,9 @@ Emergency management platform that allows citizens to get latest news and weathe
 
 ###### Information service
 - Get weather info (with sensor data)
+- Add weather info (auth)
 - Get latest news
+- Add latest news (auth)
 
 ###### Alerting service
 - Send report
