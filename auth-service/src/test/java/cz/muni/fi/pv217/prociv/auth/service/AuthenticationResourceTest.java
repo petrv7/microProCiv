@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @QuarkusTest
@@ -59,6 +60,28 @@ public class AuthenticationResourceTest {
 
         given().contentType(ContentType.JSON).body(failData)
                 .when().post("/auth/login")
+                .then()
+                .statusCode(400)
+                .body(is(exception));
+    }
+
+    @Test
+    public void registerTest() {
+        given().contentType(ContentType.JSON).body(correctData)
+                .when().post("/auth/register")
+                .then()
+                .statusCode(200)
+                .body(is("Registration successful!"));
+    }
+
+    @Test
+    public void registerFailTest() {
+        String exception = "User " + failData.username + " already exists!";
+
+        doThrow(new IllegalArgumentException(exception)).when(authService).registerUser(failData.username, failData.password);
+
+        given().contentType(ContentType.JSON).body(failData)
+                .when().post("/auth/register")
                 .then()
                 .statusCode(400)
                 .body(is(exception));
