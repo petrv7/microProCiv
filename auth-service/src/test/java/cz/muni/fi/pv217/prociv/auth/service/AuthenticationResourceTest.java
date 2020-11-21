@@ -22,24 +22,37 @@ public class AuthenticationResourceTest {
     @InjectMock
     private TokenService tokenService;
 
-    private AuthData data;
-
-    @BeforeEach
-    public void setup() {
-        data = new AuthData();
+    @Test
+    public void loginTest() {
+        AuthData data = new AuthData();
         data.username = "testUser";
         data.password = "testPassword";
+
         when(authService.loginUser(data.username, data.password)).thenReturn(true);
         when(authService.isAdmin(data.username)).thenReturn(false);
         when(tokenService.getToken(data.username, false)).thenReturn("token");
-    }
 
-    @Test
-    public void loginTest() {
         given().contentType(ContentType.JSON).body(data)
                 .when().post("/auth/login")
                 .then()
                 .statusCode(200)
                 .body(is("token"));
+    }
+
+    @Test
+    public void loginFailTest() {
+        AuthData data = new AuthData();
+        data.username = "nonexistent";
+        data.password = "testPassword";
+        String exception = "User " + data.username + " does not exist!";
+
+        when(authService.loginUser(data.username, data.password))
+                .thenThrow(new IllegalArgumentException(exception));
+
+        given().contentType(ContentType.JSON).body(data)
+                .when().post("/auth/login")
+                .then()
+                .statusCode(400)
+                .body(is(exception));
     }
 }
