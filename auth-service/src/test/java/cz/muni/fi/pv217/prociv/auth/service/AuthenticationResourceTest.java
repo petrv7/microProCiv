@@ -52,12 +52,12 @@ public class AuthenticationResourceTest {
 
     @Test
     public void loginFailTest() {
-        String exception = "User " + correctData.username + " does not exist!";
+        String exception = "User " + failData.username + " does not exist!";
 
-        when(authService.loginUser(correctData.username, correctData.password))
+        when(authService.loginUser(failData.username, failData.password))
                 .thenThrow(new IllegalArgumentException(exception));
 
-        given().contentType(ContentType.JSON).body(correctData)
+        given().contentType(ContentType.JSON).body(failData)
                 .when().post("/auth/login")
                 .then()
                 .statusCode(400)
