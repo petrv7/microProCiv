@@ -6,6 +6,7 @@ import cz.muni.fi.pv217.prociv.auth.service.services.TokenService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import io.restassured.http.ContentType;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,17 +23,27 @@ public class AuthenticationResourceTest {
     @InjectMock
     private TokenService tokenService;
 
+    private static AuthData correctData;
+    private static AuthData failData;
+
+    @BeforeAll
+    public static void setup() {
+        correctData = new AuthData();
+        correctData.username = "testUser";
+        correctData.password = "testPassword";
+
+        failData = new AuthData();
+        failData.username = "nonexistent";
+        failData.password = "testPassword";
+    }
+
     @Test
     public void loginTest() {
-        AuthData data = new AuthData();
-        data.username = "testUser";
-        data.password = "testPassword";
+        when(authService.loginUser(correctData.username, correctData.password)).thenReturn(true);
+        when(authService.isAdmin(correctData.username)).thenReturn(false);
+        when(tokenService.getToken(correctData.username, false)).thenReturn("token");
 
-        when(authService.loginUser(data.username, data.password)).thenReturn(true);
-        when(authService.isAdmin(data.username)).thenReturn(false);
-        when(tokenService.getToken(data.username, false)).thenReturn("token");
-
-        given().contentType(ContentType.JSON).body(data)
+        given().contentType(ContentType.JSON).body(correctData)
                 .when().post("/auth/login")
                 .then()
                 .statusCode(200)
@@ -41,15 +52,12 @@ public class AuthenticationResourceTest {
 
     @Test
     public void loginFailTest() {
-        AuthData data = new AuthData();
-        data.username = "nonexistent";
-        data.password = "testPassword";
-        String exception = "User " + data.username + " does not exist!";
+        String exception = "User " + correctData.username + " does not exist!";
 
-        when(authService.loginUser(data.username, data.password))
+        when(authService.loginUser(correctData.username, correctData.password))
                 .thenThrow(new IllegalArgumentException(exception));
 
-        given().contentType(ContentType.JSON).body(data)
+        given().contentType(ContentType.JSON).body(correctData)
                 .when().post("/auth/login")
                 .then()
                 .statusCode(400)
