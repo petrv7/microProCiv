@@ -3,6 +3,7 @@ package cz.muni.fi.pv217.prociv.auth.service;
 import cz.muni.fi.pv217.prociv.auth.service.data.AuthData;
 import cz.muni.fi.pv217.prociv.auth.service.exceptions.AuthException;
 import cz.muni.fi.pv217.prociv.auth.service.services.AuthenticationService;
+import cz.muni.fi.pv217.prociv.auth.service.services.TokenService;
 import io.smallrye.jwt.build.Jwt;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
@@ -19,25 +20,21 @@ import java.util.Set;
 public class AuthenticationResource {
 
     @Inject
-    private AuthenticationService service;
+    private AuthenticationService authService;
+
+    @Inject
+    private TokenService tokenService;
 
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public String login(AuthData data) throws AuthException {
         try {
-            if (!service.loginUser(data.username, data.password)) {
+            if (!authService.loginUser(data.username, data.password)) {
                 throw new AuthException("Invalid password!");
             }
 
-            Set<String> groups = new HashSet<>(Arrays.asList("User"));
-            if (service.isAdmin(data.username)) {
-                groups.add("Admin");
-            }
-            return Jwt.issuer("https://example.com/issuer")
-                    .upn(data.username + "@quarkus.io")
-                    .groups(groups)
-                    .sign();
+            return tokenService.getToken(data.username, authService.isAdmin(data.username));
         } catch (Exception e) {
             throw new AuthException(e.getMessage());
         }
@@ -48,7 +45,7 @@ public class AuthenticationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public String register(AuthData data) throws AuthException {
         try {
-            service.registerUser(data.username, data.password);
+            authService.registerUser(data.username, data.password);
             return "Registration successful!";
         } catch (Exception e) {
             throw new AuthException(e.getMessage());
