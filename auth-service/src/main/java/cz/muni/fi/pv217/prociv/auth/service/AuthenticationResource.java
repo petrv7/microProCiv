@@ -34,7 +34,6 @@ public class AuthenticationResource {
             if (service.isAdmin(data.username)) {
                 groups.add("Admin");
             }
-
             return Jwt.issuer("https://example.com/issuer")
                     .upn(data.username + "@quarkus.io")
                     .groups(groups)
