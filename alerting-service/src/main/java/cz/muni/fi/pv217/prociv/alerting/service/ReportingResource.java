@@ -4,6 +4,9 @@ import cz.muni.fi.pv217.prociv.alerting.service.data.Report;
 import cz.muni.fi.pv217.prociv.alerting.service.data.ReportFilterOptions;
 import cz.muni.fi.pv217.prociv.alerting.service.exceptions.AlertException;
 import cz.muni.fi.pv217.prociv.alerting.service.services.ReportingService;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -23,6 +26,8 @@ public class ReportingResource {
     @Path("/new")
     @RolesAllowed("User")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Counted(name = "numberOfNewReports", description = "How many new reports have been added.")
+    @Timed(name = "newReportTimer", description = "A measure of how long it takes to add a new report.", unit = MetricUnits.MILLISECONDS)
     public String newReport(Report report, @Context SecurityContext ctx) {
         if (ctx != null && ctx.getUserPrincipal() != null) {
             report.username = ctx.getUserPrincipal().getName();
@@ -55,6 +60,7 @@ public class ReportingResource {
     @Path("/filter")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Timed(name = "filterReportTimer", description = "A measure of how long it takes to filter reports.", unit = MetricUnits.MILLISECONDS)
     public List<Report> getFilteredReports(ReportFilterOptions options) {
         return reportingService.getFilteredReports(options.date, options.location);
     }
