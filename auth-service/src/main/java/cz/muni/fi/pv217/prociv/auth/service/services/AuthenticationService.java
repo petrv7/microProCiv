@@ -46,7 +46,7 @@ public class AuthenticationService {
         return findUserByName(username) != null;
     }
 
-    private static String createHash(String password) {
+    public static String createHash(String password) {
         final int SALT_BYTE_SIZE = 24;
         final int HASH_BYTE_SIZE = 24;
         final int PBKDF2_ITERATIONS = 1000;
