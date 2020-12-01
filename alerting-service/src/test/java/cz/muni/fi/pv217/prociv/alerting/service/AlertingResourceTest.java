@@ -1,6 +1,5 @@
 package cz.muni.fi.pv217.prociv.alerting.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pv217.prociv.alerting.service.data.Alert;
 import cz.muni.fi.pv217.prociv.alerting.service.data.Location;
