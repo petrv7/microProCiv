@@ -24,7 +24,12 @@ public class ReportingResource {
     @RolesAllowed("User")
     @Consumes(MediaType.APPLICATION_JSON)
     public String newReport(Report report, @Context SecurityContext ctx) {
-        report.username = ctx.getUserPrincipal().getName();
+        if (ctx != null && ctx.getUserPrincipal() != null) {
+            report.username = ctx.getUserPrincipal().getName();
+        } else {
+            report.username = "unknown";
+        }
+
         reportingService.addReport(report);
         return "Report successfully added!";
     }
