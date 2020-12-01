@@ -1,7 +1,5 @@
 package cz.muni.fi.pv217.prociv.alerting.service;
 
-import cz.muni.fi.pv217.prociv.alerting.service.data.Alert;
-import cz.muni.fi.pv217.prociv.alerting.service.data.Location;
 import cz.muni.fi.pv217.prociv.alerting.service.data.Report;
 import cz.muni.fi.pv217.prociv.alerting.service.data.ReportFilterOptions;
 import cz.muni.fi.pv217.prociv.alerting.service.exceptions.AlertException;
@@ -13,7 +11,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
-import java.util.Date;
 import java.util.List;
 
 @Path("/reports")
