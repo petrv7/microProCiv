@@ -8,7 +8,7 @@ import javax.ws.rs.core.Application;
 @OpenAPIDefinition(
         info = @Info(
                 title="Alerting API",
-                description = "Authentication API for microProCiv system. Provides ability to manage reports and alerts.",
+                description = "Alerting API for microProCiv system. Provides ability to manage reports and alerts.",
                 version = "1.0")
 )
 public class ApiApplication extends Application {
