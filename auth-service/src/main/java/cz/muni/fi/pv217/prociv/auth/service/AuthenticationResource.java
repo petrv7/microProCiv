@@ -4,20 +4,13 @@ import cz.muni.fi.pv217.prociv.auth.service.data.AuthData;
 import cz.muni.fi.pv217.prociv.auth.service.exceptions.AuthException;
 import cz.muni.fi.pv217.prociv.auth.service.services.AuthenticationService;
 import cz.muni.fi.pv217.prociv.auth.service.services.TokenService;
-import io.smallrye.jwt.build.Jwt;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Timed;
-import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
-import org.eclipse.microprofile.openapi.annotations.info.Info;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 @Path("/auth")
 public class AuthenticationResource {
@@ -48,7 +41,7 @@ public class AuthenticationResource {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     @Counted(name = "numberOfRegistrations", description = "How many registrations have been performed.")
-    @Timed(name = "registerationTimer", description = "A measure of how long it takes to register a new user.", unit = MetricUnits.MILLISECONDS)
+    @Timed(name = "registrationTimer", description = "A measure of how long it takes to register a new user.", unit = MetricUnits.MILLISECONDS)
     public String register(AuthData data) throws AuthException {
         try {
             authService.registerUser(data.username, data.password);
