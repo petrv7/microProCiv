@@ -1,5 +1,6 @@
 package cz.muni.fi.pv217.prociv.alerting.service;
 
+import cz.muni.fi.pv217.prociv.alerting.service.data.NewReportInfo;
 import cz.muni.fi.pv217.prociv.alerting.service.data.Report;
 import cz.muni.fi.pv217.prociv.alerting.service.data.ReportFilterOptions;
 import cz.muni.fi.pv217.prociv.alerting.service.exceptions.AlertException;
@@ -35,7 +36,11 @@ public class ReportingResource {
     @RequestBody(description = "Report info")
     @APIResponse(responseCode = "200", description = "Successfully added a new report.")
     @APIResponse(responseCode = "401", description = "Unauthorized access.")
-    public String newReport(Report report, @Context SecurityContext ctx) {
+    public String newReport(NewReportInfo reportInfo, @Context SecurityContext ctx) {
+        Report report = new Report();
+        report.location = reportInfo.location;
+        report.date = reportInfo.date;
+        report.info = reportInfo.info;
         if (ctx != null && ctx.getUserPrincipal() != null) {
             report.username = ctx.getUserPrincipal().getName();
         } else {
