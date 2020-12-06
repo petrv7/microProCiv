@@ -14,7 +14,6 @@ public class AlertingService {
 
     @Transactional
     public void addAlert(Alert alert) {
-        alert.active = true;
         alert.persist();
     }
 
