@@ -2,6 +2,7 @@ package cz.muni.fi.pv217.prociv.alerting.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pv217.prociv.alerting.service.data.Location;
+import cz.muni.fi.pv217.prociv.alerting.service.data.NewReportInfo;
 import cz.muni.fi.pv217.prociv.alerting.service.data.Report;
 import cz.muni.fi.pv217.prociv.alerting.service.data.ReportFilterOptions;
 import cz.muni.fi.pv217.prociv.alerting.service.services.ReportingService;
@@ -34,6 +35,7 @@ public class ReportingResourceTest {
 
     private Report report;
     private Report otherReport;
+    private NewReportInfo reportInfo;
     private List<Report> reports;
 
     @BeforeEach
@@ -51,11 +53,15 @@ public class ReportingResourceTest {
         reports = new ArrayList<>();
         reports.add(report);
         reports.add(otherReport);
+
+        reportInfo = new NewReportInfo();
+        reportInfo.info = "test report";
+        reportInfo.location = Location.JIHOCESKY;
     }
 
     @Test
     public void newReportTest() {
-        given().contentType(ContentType.JSON).body(report)
+        given().contentType(ContentType.JSON).body(reportInfo)
                 .when().post("/reports/new")
                 .then()
                 .statusCode(200)
@@ -68,7 +74,7 @@ public class ReportingResourceTest {
     public void newReportUnauthorizedTest() {
         when(user.hasRole("User")).thenReturn(false);
 
-        given().contentType(ContentType.JSON).body(report)
+        given().contentType(ContentType.JSON).body(reportInfo)
                 .when().post("/reports/new")
                 .then()
                 .statusCode(403);
