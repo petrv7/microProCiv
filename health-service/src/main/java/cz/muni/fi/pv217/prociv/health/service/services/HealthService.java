@@ -4,7 +4,6 @@ import cz.muni.fi.pv217.prociv.health.service.data.HealthData;
 import cz.muni.fi.pv217.prociv.health.service.data.HealthInfo;
 import cz.muni.fi.pv217.prociv.health.service.data.HealthResponse;
 import io.quarkus.scheduler.Scheduled;
-import org.apache.http.conn.HttpHostConnectException;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;

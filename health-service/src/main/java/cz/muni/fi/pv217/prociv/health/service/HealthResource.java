@@ -1,7 +1,6 @@
 package cz.muni.fi.pv217.prociv.health.service;
 
 import cz.muni.fi.pv217.prociv.health.service.data.HealthData;
-import cz.muni.fi.pv217.prociv.health.service.data.HealthInfo;
 import cz.muni.fi.pv217.prociv.health.service.services.HealthService;
 
 import javax.inject.Inject;
@@ -19,7 +18,7 @@ public class HealthResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<HealthData> hello() {
+    public List<HealthData> getProCivHealth() {
         return healthService.getProCivHealth();
     }
 }
