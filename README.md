@@ -8,20 +8,20 @@ Emergency management platform that allows citizens to get latest news and weathe
 
 ###### Information service
 - Get weather info (with sensor data)
-- Add weather info (auth)
+- Add weather info (auth - admin)
 - Get latest news
-- Add latest news (auth)
+- Add latest news (auth - admin)
 
 ###### Alerting service
-- Send report
+- Send report (auth - user)
 - List reports
 - Get alerts
-- Add alert (auth)
+- Add alert (auth - admin)
 
 ###### Sensor service
 - List sensors
 - Get sensor data
-- Register new sensor (auth)
+- Register new sensor (auth - admin)
 
 ###### Health service
 - Aggregates health info of the whole system
