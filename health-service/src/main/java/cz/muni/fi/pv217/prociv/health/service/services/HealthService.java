@@ -53,6 +53,7 @@ public class HealthService {
         data.response = response.readEntity(HealthResponse.class);
 
         response.close();
+        client.close();
         return data;
     }
 
