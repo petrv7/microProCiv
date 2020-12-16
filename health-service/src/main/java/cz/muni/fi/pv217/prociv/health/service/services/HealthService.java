@@ -66,7 +66,11 @@ public class HealthService {
         List<HealthData> data = getProCivHealth();
 
         for (HealthData d : data) {
-            LOG.info(d.info.name + ": STATUS: " + d.response.status);
+            if (d.response.status.equals("UP")) {
+                LOG.info(d.info.name + ": STATUS: " + d.response.status);
+            } else {
+                LOG.warn(d.info.name + ": STATUS: " + d.response.status);
+            }
         }
     }
 }
