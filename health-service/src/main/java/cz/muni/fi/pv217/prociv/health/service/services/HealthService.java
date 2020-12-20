@@ -30,7 +30,7 @@ public class HealthService {
         return data;
     }
 
-    public HealthData getHealth(HealthInfo info) {
+    private HealthData getHealth(HealthInfo info) {
         HealthData data = new HealthData();
         data.info = info;
 
