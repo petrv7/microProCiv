@@ -2,6 +2,8 @@ package cz.muni.fi.pv217.prociv.health.service;
 
 import cz.muni.fi.pv217.prociv.health.service.data.HealthData;
 import cz.muni.fi.pv217.prociv.health.service.services.HealthService;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -18,6 +20,8 @@ public class HealthResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get health status of all microProCiv services.")
+    @APIResponse(responseCode = "200", description = "Health status of all microProCiv services is returned.")
     public List<HealthData> getProCivHealth() {
         return healthService.getProCivHealth();
     }
