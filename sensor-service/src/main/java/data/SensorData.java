@@ -1,13 +1,8 @@
 package data;
 
 import exceptions.SensorException;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
-import javax.persistence.Entity;
-
-@Entity
-public class SensorData extends PanacheEntity {
-    public Long id;
+public class SensorData  {
     public float humidity;  // Air humidity in percent
     public float temperature;  // Degrees in Celsius
     public float CO2Level;  // CO2 in air in percent

@@ -43,6 +43,20 @@ public class SensorService {
         return Sensor.findByLocation(location);
     }
 
+    // Generated randomly, sensor id only to demonstrate functionality, take this as a blackbox
+    public SensorData getSensorData(Long id) throws SensorException {
+        maybeFail();
+        int sky = new Random().nextInt(SkyStatus.values().length);
+        return new SensorData(
+                new Random().nextFloat()*100,
+                new Random().nextFloat()*50 - 20,
+                new Random().nextFloat()*30,
+                new Random().nextFloat()*200,
+                new Random().nextFloat()*10000 + 96000,
+                SkyStatus.values()[sky]
+        );
+    }
+
     private List<Sensor> defaultResponseList() {
         return new ArrayList<Sensor>();
     }

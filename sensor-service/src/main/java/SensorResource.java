@@ -1,5 +1,6 @@
 import data.Location;
 import data.Sensor;
+import data.SensorData;
 import exceptions.SensorException;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
@@ -68,5 +69,14 @@ public class SensorResource {
         return sensorService.listSensors();
     }
 
+    @GET
+    @Path("/{id}/data")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Timed(name = "getSensorData", description = "A measure of how long it takes to get example sensor data", unit = MetricUnits.MILLISECONDS)
+    @Operation(summary = "Gets sample sensor data")
+    @APIResponse(responseCode = "200", description = "sensor data")
+    public SensorData getSensorData(@PathParam("id") Long id) throws SensorException {
+        return sensorService.getSensorData(id);
+    }
 }
 
