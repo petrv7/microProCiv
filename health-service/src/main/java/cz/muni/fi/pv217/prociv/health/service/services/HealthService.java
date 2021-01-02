@@ -44,9 +44,10 @@ public class HealthService {
                     .get();
         } catch (Exception e) {
             HealthResponse healthResponse = new HealthResponse();
-            healthResponse.status = "DOWN";
+            healthResponse.status = "NOT RESPONDING";
             data.response = healthResponse;
 
+            client.close();
             return data;
         }
 

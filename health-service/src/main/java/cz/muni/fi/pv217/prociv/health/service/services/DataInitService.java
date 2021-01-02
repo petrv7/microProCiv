@@ -16,12 +16,12 @@ public class DataInitService {
     public void onStart(@Observes StartupEvent ev) {
         HealthInfo authService = new HealthInfo();
         authService.name = "auth-service";
-        authService.url = "http://localhost:8081";
+        authService.url = "http://host.docker.internal:8081";
         healthService.addProCivService(authService);
 
         HealthInfo alertingService = new HealthInfo();
         alertingService.name = "alerting-service";
-        alertingService.url = "http://localhost:8080";
+        alertingService.url = "http://host.docker.internal:8080";
         healthService.addProCivService(alertingService);
     }
 }
