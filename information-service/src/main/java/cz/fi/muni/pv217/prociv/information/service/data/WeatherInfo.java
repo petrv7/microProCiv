@@ -4,7 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.panache.common.Sort;
 
 import javax.persistence.Entity;
-import javax.ws.rs.BadRequestException;
+import javax.persistence.PersistenceException;
 import javax.ws.rs.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,8 +24,7 @@ public class WeatherInfo extends PanacheEntity {
         Optional<WeatherInfo> optional = WeatherInfo.find("location = ?1 and date = ?2", weatherInfo.location, weatherInfo.date)
                         .firstResultOptional();
         if(optional.isPresent()) {
-            throw new BadRequestException();
-            //throw some other exception for duplicate entry instead?
+            throw new PersistenceException();
         }
         else {
             WeatherInfo.persist(weatherInfo);

@@ -5,5 +5,5 @@ import java.util.List;
 public class CompleteInfo {
     public WeatherInfo weatherInfo;
     public List<Alert> alerts;
-    //TODO: add sensor data here
+    public List<SensorData> sensorData;
 }

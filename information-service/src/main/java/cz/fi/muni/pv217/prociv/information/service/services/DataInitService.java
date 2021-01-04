@@ -1,6 +1,7 @@
 package cz.fi.muni.pv217.prociv.information.service.services;
 
 import cz.fi.muni.pv217.prociv.information.service.data.Location;
+import cz.fi.muni.pv217.prociv.information.service.data.News;
 import cz.fi.muni.pv217.prociv.information.service.data.SkyStatus;
 import cz.fi.muni.pv217.prociv.information.service.data.WeatherInfo;
 import io.quarkus.runtime.StartupEvent;
@@ -175,5 +176,16 @@ public class DataInitService {
         weatherInfo.skyStatus = SkyStatus.CLEAR;
         weatherInfo.rainChance = 2;
         weatherInfo.persist();
+
+
+        News news = new News();
+        news.date = LocalDate.of(2021,1,4);
+        news.news = "Earthquake of strength 4 on the Richter scale has hit southern Moravia";
+        news.persist();
+
+        news = new News();
+        news.date = LocalDate.of(2020,12,30);
+        news.news = "This text is unimportant, since there are more recent news already.";
+        news.persist();
     }
 }
