@@ -22,3 +22,7 @@ Emergency management platform that allows citizens to get latest news and weathe
 - List sensors
 - Get sensor data
 - Register new sensor (auth - admin)
+
+###### Health service
+- Aggregates health info of the whole system
+- Checks health of other services periodically
