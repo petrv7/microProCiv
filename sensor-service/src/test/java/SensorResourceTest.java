@@ -73,7 +73,7 @@ public class SensorResourceTest {
     }
 
     @Test
-    public void testGetSensorsByLocation() {
+    public void testGetSensorsByLocation() throws SensorException {
         ArrayList<Sensor> brnoSensors = new ArrayList<>();
         ArrayList<Sensor> pragueSensors = new ArrayList<>();
 

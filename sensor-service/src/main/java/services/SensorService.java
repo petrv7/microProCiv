@@ -39,7 +39,8 @@ public class SensorService {
     }
 
     @Transactional
-    public List<Sensor> getSensorsByLocation(Location location) {
+    public List<Sensor> getSensorsByLocation(Location location) throws SensorException {
+        maybeFail();
         return Sensor.findByLocation(location);
     }
 
