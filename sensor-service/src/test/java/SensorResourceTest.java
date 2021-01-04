@@ -4,6 +4,7 @@ import data.Sensor;
 import data.SensorData;
 import data.SkyStatus;
 import exceptions.SensorException;
+import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,6 +25,8 @@ public class SensorResourceTest {
 
     @InjectMock
     private SensorService sensorService;
+    @InjectMock
+    private SecurityIdentity user;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -52,19 +55,21 @@ public class SensorResourceTest {
     public void testGetSensorById() {
         when(sensorService.getSensor((long)1)).thenReturn(sensor);
 
-        given().when().get("/1")
+        given().when().get("sensors/1")
                 .then()
                 .statusCode(200)
-                .body(is("Sensor"));
+                .body(is(getJsonString(sensor)));
     }
 
     @Test
     public void testRegisterSensor() {
+        when(user.hasRole("Admin")).thenReturn(true);
+
         given().contentType(ContentType.JSON).body(sensor)
-                .when().post("/auth/new")
+                .when().post("sensors/auth/new")
                 .then()
                 .statusCode(200)
-                .body(is("Successfully added new sensor."));
+                .body(is("Sensor added successfully"));
     }
 
     @Test
@@ -78,8 +83,8 @@ public class SensorResourceTest {
         when(sensorService.getSensorsByLocation(Location.JIHOMORAVSKY)).thenReturn(brnoSensors);
         when(sensorService.getSensorsByLocation(Location.STREDOCESKY)).thenReturn(pragueSensors);
 
-        given().when().get("/location/JIHOMORAVSKY").then().statusCode(200).body(is(getJsonString(brnoSensors)));
-        given().when().get("/location/STREDOCESKY").then().statusCode(200).body(is(getJsonString(pragueSensors)));
+        given().when().get("sensors/location/JIHOMORAVSKY").then().statusCode(200).body(is(getJsonString(brnoSensors)));
+        given().when().get("sensors/location/STREDOCESKY").then().statusCode(200).body(is(getJsonString(pragueSensors)));
     }
 
     @Test
@@ -90,14 +95,14 @@ public class SensorResourceTest {
         sensors.add(sensorPrague);
 
         when(sensorService.listSensors()).thenReturn(sensors);
-        given().when().get("/all").then().statusCode(200).body(is(getJsonString(sensors)));
+        given().when().get("sensors/all").then().statusCode(200).body(is(getJsonString(sensors)));
     }
 
     @Test
     public void testGetSensorData() throws SensorException {
         when(sensorService.getSensorData((long)1)).thenReturn(sensorData);
 
-        given().when().get("/1/data")
+        given().when().get("sensors/1/data")
                 .then()
                 .statusCode(200);
     }
