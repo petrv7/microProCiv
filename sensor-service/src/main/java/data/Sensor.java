@@ -9,6 +9,13 @@ import java.util.Random;
 
 @Entity
 public class Sensor extends PanacheEntity {
+    public Sensor(){}
+
+    public Sensor(Location location) {
+        this.location = location;
+        int sky = new Random().nextInt(SkyStatus.values().length);
+    }
+
     public Location location;
 
     public static Sensor findById(Long id) {
@@ -19,8 +26,5 @@ public class Sensor extends PanacheEntity {
         return find("location", location).list();
     }
 
-    public Sensor(Location location) {
-        this.location = location;
-        int sky = new Random().nextInt(SkyStatus.values().length);
-    }
+
 }

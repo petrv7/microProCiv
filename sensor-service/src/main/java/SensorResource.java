@@ -21,7 +21,7 @@ public class SensorResource {
     private SensorService sensorService;
 
     @POST
-    @Path("/new")
+    @Path("/auth/new")
     @RolesAllowed("Admin")
     @Consumes(MediaType.APPLICATION_JSON)
     @Counted(name = "numberOfSensorsAdded", description = "Number of sensors added so far")
@@ -40,12 +40,12 @@ public class SensorResource {
     }
 
     @GET
-    @Path("/id")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Timed(name = "getSensorByIdTimer", description = "A measure of how long it takes to find the sensor", unit = MetricUnits.MILLISECONDS)
     @Operation(summary = "Finds a sensor by ID")
     @APIResponse(responseCode = "200", description = "Sensor")
-    public Sensor getSensorById(Long id) {
+    public Sensor getSensorById(@PathParam("id") Long id) {
         return sensorService.getSensor(id);
     }
 

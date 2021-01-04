@@ -45,7 +45,6 @@ public class SensorService {
 
     // Generated randomly, sensor id only to demonstrate functionality, take this as a blackbox
     public SensorData getSensorData(Long id) throws SensorException {
-        maybeFail();
         int sky = new Random().nextInt(SkyStatus.values().length);
         return new SensorData(
                 new Random().nextFloat()*100,
