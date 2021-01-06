@@ -1,8 +1,5 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-import data.Location;
-import data.Sensor;
-import data.SensorData;
-import data.SkyStatus;
+import data.*;
 import exceptions.SensorException;
 import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.test.junit.QuarkusTest;
@@ -31,6 +28,7 @@ public class SensorResourceTest {
     private ObjectMapper mapper = new ObjectMapper();
 
     private static Sensor sensor;
+    private static SensorCreateDTO sensorCreateDTO;
     private static Sensor sensorPrague;
     private static Sensor sensorBrno;
     private static SensorData sensorData;
@@ -49,6 +47,9 @@ public class SensorResourceTest {
                 new Random().nextFloat()*10000 + 96000,
                 SkyStatus.values()[sky]
         );
+
+        sensorCreateDTO = new SensorCreateDTO();
+        sensorCreateDTO.location = Location.KRALOVEHRADECKY;
     }
 
     @Test
@@ -65,7 +66,7 @@ public class SensorResourceTest {
     public void testRegisterSensor() {
         when(user.hasRole("Admin")).thenReturn(true);
 
-        given().contentType(ContentType.JSON).body(sensor)
+        given().contentType(ContentType.JSON).body(sensorCreateDTO)
                 .when().post("sensors/auth/new")
                 .then()
                 .statusCode(200)

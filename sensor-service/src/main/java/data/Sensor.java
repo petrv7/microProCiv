@@ -9,14 +9,14 @@ import java.util.Random;
 
 @Entity
 public class Sensor extends PanacheEntity {
-    public Sensor(){}
-
-    public Sensor(Location location) {
-        this.location = location;
-        int sky = new Random().nextInt(SkyStatus.values().length);
-    }
-
+    public String name;
     public Location location;
+
+    public Sensor() {}
+
+    public Sensor(Location loc) {
+        location = loc;
+    }
 
     public static Sensor findById(Long id) {
         return find("id", id).firstResult();
@@ -25,6 +25,4 @@ public class Sensor extends PanacheEntity {
     public static List<Sensor> findByLocation(Location location) {
         return find("location", location).list();
     }
-
-
 }

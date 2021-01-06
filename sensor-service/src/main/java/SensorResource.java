@@ -1,5 +1,6 @@
 import data.Location;
 import data.Sensor;
+import data.SensorCreateDTO;
 import data.SensorData;
 import exceptions.SensorException;
 import org.eclipse.microprofile.metrics.MetricUnits;
@@ -31,9 +32,13 @@ public class SensorResource {
     @RequestBody(description = "Sensor setup")
     @APIResponse(responseCode = "200", description = "Successfully added new sensor.")
     @APIResponse(responseCode = "401", description = "Unauthorized access.")
-    public String addSensor(Sensor sensor) throws SensorException {
+    public String addSensor(SensorCreateDTO sensor) throws SensorException {
         try {
-            sensorService.registerSensor(sensor);
+            Sensor s = new Sensor();
+            s.location = sensor.location;
+            s.name = sensor.name;
+
+            sensorService.registerSensor(s);
             return "Sensor added successfully";
         } catch (Exception e) {
             throw new SensorException(e.getMessage());

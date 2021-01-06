@@ -23,5 +23,15 @@ public class DataInitService {
         alertingService.name = "alerting-service";
         alertingService.url = "http://host.docker.internal:8080";
         healthService.addProCivService(alertingService);
+
+        HealthInfo sensorService = new HealthInfo();
+        sensorService.name = "sensor-service";
+        sensorService.url = "http://host.docker.internal:8083";
+        healthService.addProCivService(sensorService);
+
+        HealthInfo informationService = new HealthInfo();
+        informationService.name = "information-service";
+        informationService.url = "http://host.docker.internal:8082";
+        healthService.addProCivService(informationService);
     }
 }
