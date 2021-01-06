@@ -15,3 +15,7 @@ scrape_configs:
   - job_name: 'information-service'
     static_configs:
       - targets: ['host.docker.internal:8082']
+
+  - job_name: 'sensor-service'
+    static_configs:
+      - targets: [ '127.0.0.1:8083' ]
