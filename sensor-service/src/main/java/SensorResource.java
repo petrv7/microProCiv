@@ -56,7 +56,7 @@ public class SensorResource {
     @Timed(name = "getSensorByLocationTimer", description = "A measure of how long it takes to filter sensors by location", unit = MetricUnits.MILLISECONDS)
     @Operation(summary = "Finds a sensor by location")
     @APIResponse(responseCode = "200", description = "Sensors by location")
-    public List<Sensor> getSensorsByLocation(@PathParam("loc") Location location) {
+    public List<Sensor> getSensorsByLocation(@PathParam("loc") Location location) throws SensorException {
         return sensorService.getSensorsByLocation(location);
     }
 
