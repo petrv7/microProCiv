@@ -44,13 +44,19 @@ public class InformationResource {
     public CompleteInfo getWeatherInfo(@PathParam("location") Location location) {
         CompleteInfo completeInfo = new CompleteInfo();
         completeInfo.weatherInfo = WeatherInfo.getLatestWeatherInfo(location);
-        completeInfo.alerts = alertingServiceClient.getActiveAlertsByLocation(location);
-        List<Sensor> sensors = sensorServiceClient.getSensorsByLocation(location);
-        List<SensorData> sensorData = new ArrayList<>();
-        for (Sensor sensor : sensors) {
-            sensorData.add(sensorServiceClient.getSensorData(sensor.id)); //do something about SensorException here?
+        try {
+            completeInfo.alerts = alertingServiceClient.getActiveAlertsByLocation(location);
         }
-        completeInfo.sensorData = sensorData;
+        catch(Exception e) { }
+        try {
+            List<Sensor> sensors = sensorServiceClient.getSensorsByLocation(location);
+            List<SensorData> sensorData = new ArrayList<>();
+            for (Sensor sensor : sensors) {
+                sensorData.add(sensorServiceClient.getSensorData(sensor.id)); //do something about SensorException here?
+            }
+            completeInfo.sensorData = sensorData;
+        }
+        catch(Exception e) { }
         return completeInfo;
     }
 
@@ -86,8 +92,16 @@ public class InformationResource {
     @APIResponse(responseCode = "401", description = "Unauthorized access.")
     @APIResponse(responseCode = "400", description = "Bad request, WeatherInfo with given date and location could already exist.")
     @Transactional
-    public WeatherInfo addWeatherInfo(WeatherInfo weatherInfo) {
+    public WeatherInfo addWeatherInfo(WeatherInfoCreateDTO dto) {
         try {
+            WeatherInfo weatherInfo = new WeatherInfo();
+            weatherInfo.location = dto.location;
+            weatherInfo.humidity = dto.humidity;
+            weatherInfo.skyStatus = dto.skyStatus;
+            weatherInfo.rainChance = dto.rainChance;
+            weatherInfo.date = dto.date;
+            weatherInfo.temperatureNight = dto.temperatureNight;
+            weatherInfo.temperatureDay = dto.temperatureDay;
             WeatherInfo.createWeatherInfo(weatherInfo);
             return weatherInfo;
         }
@@ -120,8 +134,11 @@ public class InformationResource {
     @APIResponse(responseCode = "200", description = "Successfully added news.")
     @APIResponse(responseCode = "401", description = "Unauthorized access.")
     @Transactional
-    public News addNews(News news) {
-        news.persist(news);
-        return news;
+    public News addNews(NewsCreateDTO dto) {
+            News news = new News();
+            news.date = dto.date;
+            news.news = dto.news;
+            news.persist(news);
+            return news;
     }
 }
